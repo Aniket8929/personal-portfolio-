@@ -1,92 +1,106 @@
-import React, { useState } from 'react';
-import { FiMenu, FiX, FiMoon, FiSun } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { FiMenu, FiX, FiMoon, FiSun } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+  // ---------------- HANDLERS ----------------
+  const handleMenuToggle = () => {
+    setIsMenuOpen((prev) => !prev);
   };
 
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-    // In a real app, you would implement dark mode logic here
+  const handleDarkModeToggle = () => {
+    setIsDarkMode((prev) => !prev);
   };
+
+  const navLinks = [
+    { name: "Projects", path: "/projects" },
+    { name: "Contact", path: "/contact" },
+  ];
 
   return (
-    <nav className="bg-white w-full">
-      <div className="max-w-6xl mx-auto  py-2">
+    <nav className="bg-neutral-950 border-b border-neutral-800 sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between items-center h-16">
-          <div className="shrink-0 flex items-center">
-            <Link to={"/"}>
-              <img src="https://cpro-portfolio-html.netlify.app/assets/logo.png" alt="logo" className='h-11' />
+          <Link to="/">
+            <img
+              src="https://cpro-portfolio-html.netlify.app/assets/logo.png"
+              alt="logo"
+              className="h-11"
+            />
+          </Link>
+          <div className="hidden md:flex items-center gap-6">
+            {navLinks.map((link) => (
+              <Link
+                key={link.name}
+                to={link.path}
+                className="text-neutral-400 hover:text-white font-medium transition"
+              >
+                {link.name}
+              </Link>
+            ))}
+
+            <button className="bg-lime-400 hover:bg-lime-300 text-black px-5 py-2 rounded-lg text-sm font-medium transition-all duration-300 shadow-sm hover:shadow-lime-400/20">
+              Resume
+            </button>
+            <button
+              onClick={handleDarkModeToggle}
+              className="p-2 rounded-full hover:bg-neutral-900 transition"
+              aria-label="Toggle Dark Mode"
+            >
+              {isDarkMode ? (
+                <FiSun className="text-lime-400" />
+              ) : (
+                <FiMoon className="text-lime-400" />
+              )}
+            </button>
+          </div>
+
+          <div className="md:hidden flex items-center gap-2">
+            <button
+              onClick={handleDarkModeToggle}
+              className="p-2 rounded-full hover:bg-neutral-900"
+            >
+              {isDarkMode ? (
+                <FiSun className="text-lime-400" />
+              ) : (
+                <FiMoon className="text-lime-400" />
+              )}
+            </button>
+
+            <button
+              onClick={handleMenuToggle}
+              className="p-2 rounded-md hover:bg-neutral-900"
+            >
+              {isMenuOpen ? <FiX className="text-white" /> : <FiMenu className="text-white" />}
+            </button>
+
+          </div>
+
+        </div>
+      </div>
+
+      {isMenuOpen && (
+        <div className="md:hidden bg-neutral-950 border-t border-neutral-800 px-4 pb-4 pt-2 space-y-2">
+          {navLinks.map((link) => (
+            <Link
+              key={link.name}
+              to={link.path}
+              className="block text-neutral-400 hover:text-white py-2"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              {link.name}
             </Link>
-          </div>
+          ))}
 
-          <div className="hidden md:flex items-center space-x-4">
-            <div className="ml-10 flex items-baseline gap-3">
-               <Link to={"/#projects"} className="text-gray-700 hover:text-black block px-3 py-2 text-base font-medium">
-            PROJECTS
-          </Link>
-          <Link to={"/contact"} className="text-gray-700 hover:text-black block px-3 py-2 text-base font-medium">
-            CONTACT
-          </Link>
-            </div>
-            <button className="bg-yellow-400 hover:bg-yellow-500 text-black font-medium py-2 px-4 rounded-md flex items-center transition-colors">
-              RESUME
-              <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-              </svg>
-            </button>
-            <button
-              onClick={toggleDarkMode}
-              className="p-2 rounded-full text-gray-700 hover:text-black hover:bg-gray-100 focus:outline-none"
-              aria-label="Toggle dark mode"
-            >
-              {isDarkMode ? <FiSun className="h-5 w-5" /> : <FiMoon className="h-5 w-5" />}
-            </button>
-          </div>
+          <button className="bg-lime-400 text-black w-full py-2 rounded-lg mt-2">
+            Resume
+          </button>
 
-          <div className="md:hidden flex items-center space-x-2">
-            <button
-              onClick={toggleDarkMode}
-              className="p-2 rounded-full text-gray-700 hover:text-black hover:bg-gray-100 focus:outline-none"
-              aria-label="Toggle dark mode"
-            >
-              {isDarkMode ? <FiSun className="h-5 w-5" /> : <FiMoon className="h-5 w-5" />}
-            </button>
-            <button
-              onClick={toggleMenu}
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-black hover:bg-gray-100 focus:outline-none"
-              aria-expanded="false"
-            >
-              <span className="sr-only">Open main menu</span>
-              {isMenuOpen ? <FiX className="h-6 w-6" /> : <FiMenu className="h-6 w-6" />}
-            </button>
-          </div>
         </div>
-      </div>
-
-      <div className={`md:hidden ${isMenuOpen ? 'block' : 'hidden'}`}>
-        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t">
-          <Link to={"/#projects"} className="text-gray-700 hover:text-black block px-3 py-2 text-base font-medium">
-            PROJECTS
-          </Link>
-          <Link to={"/contact"} className="text-gray-700 hover:text-black block px-3 py-2 text-base font-medium">
-            CONTACT
-          </Link>
-          <div className="px-3 py-2">
-            <button className="bg-yellow-400 hover:bg-yellow-500 text-black font-medium py-2 px-4 rounded-md flex items-center transition-colors w-full justify-center">
-              RESUME
-              <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
+      )}
     </nav>
   );
 };
