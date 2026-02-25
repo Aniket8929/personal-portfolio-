@@ -10,9 +10,9 @@ const navLinks = [
 
 const socialLinks = [
   { icon: FaGithub, href: "https://github.com/Aniket8929", label: "GitHub" },
-  { icon: FaLinkedinIn, href: "https://linkedin.com/", label: "LinkedIn" },
+  { icon: FaLinkedinIn, href: "https://linkedin.com/in/aniket-kumar-rai-b8523535b", label: "LinkedIn" },
   { icon: FaTwitter, href: "https://twitter.com", label: "Twitter" },
-  { icon: FaInstagram, href: "https://instagram.com", label: "Instagram" },
+  { icon: FaInstagram, href: "https://instagram.com/jerryaniket_01", label: "Instagram" },
 ];
 
 const Footer = () => {
